@@ -1,8 +1,49 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+  /* IJsvogel kleurenpalet */
+  --color-kingfisher-50: #f0f7fa;
+  --color-kingfisher-100: #d9eef5;
+  --color-kingfisher-200: #b3dcea;
+  --color-kingfisher-300: #7cc4db;
+  --color-kingfisher-400: #3ea5c5;
+  --color-kingfisher-500: #1a4a6e;
+  --color-kingfisher-600: #153d5b;
+  --color-kingfisher-700: #0a2540;
+  --color-kingfisher-800: #081c30;
+  --color-kingfisher-900: #051220;
+  --color-kingfisher-950: #030a12;
+
+  /* Amber/oranje tinten */
+  --color-amber-50: #fef8f0;
+  --color-amber-100: #fcefd9;
+  --color-amber-200: #f9dbb3;
+  --color-amber-300: #f4c082;
+  --color-amber-400: #e89f4d;
+  --color-amber-500: #c77a3a;
+  --color-amber-600: #a65f2d;
+  --color-amber-700: #864825;
+  --color-amber-800: #6d3a20;
+  --color-amber-900: #5a301c;
+  --color-amber-950: #33190d;
+
+  /* Teal accenten */
+  --color-teal-50: #effcf9;
+  --color-teal-100: #c8f7ed;
+  --color-teal-200: #91efdc;
+  --color-teal-300: #52e0c8;
+  --color-teal-400: #26c9af;
+  --color-teal-500: #26a69a;
+  --color-teal-600: #1a857c;
+  --color-teal-700: #196a64;
+  --color-teal-800: #185451;
+  --color-teal-900: #184644;
+  --color-teal-950: #082928;
+
+  /* Font family */
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
 
 * {
   margin: 0;
@@ -15,7 +56,7 @@ html {
 }
 
 body {
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
