@@ -68,24 +68,18 @@ export function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-kingfisher-700 via-kingfisher-800 to-kingfisher-950 p-4">
-      {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-1/2 -right-1/2 w-full h-full bg-gradient-to-br from-teal-500/20 to-transparent rounded-full blur-3xl" />
-        <div className="absolute -bottom-1/2 -left-1/2 w-full h-full bg-gradient-to-tr from-amber-500/10 to-transparent rounded-full blur-3xl" />
-      </div>
-
-      <Card className="relative w-full max-w-md bg-white/95 dark:bg-kingfisher-900/95 backdrop-blur-xl shadow-2xl">
+    <div className="min-h-screen flex items-center justify-center bg-primary p-4">
+      <Card className="w-full max-w-md">
         <CardContent className="p-8">
           {/* Logo */}
           <div className="flex flex-col items-center mb-8">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-kingfisher-500 to-teal-500 flex items-center justify-center mb-4 shadow-lg shadow-kingfisher-500/30">
+            <div className="w-16 h-16 rounded-xl bg-accent flex items-center justify-center mb-4 shadow-lg">
               <CheckSquare className="text-white" size={32} />
             </div>
-            <h1 className="text-2xl font-bold text-kingfisher-800 dark:text-white">
+            <h1 className="text-2xl font-bold text-primary">
               Work Suite Tool
             </h1>
-            <p className="text-kingfisher-500 dark:text-kingfisher-400 mt-1">
+            <p className="text-gray-500 mt-1">
               {mode === 'login' && 'Welkom terug!'}
               {mode === 'register' && 'Maak een account aan'}
               {mode === 'forgot' && 'Wachtwoord vergeten?'}
@@ -94,12 +88,12 @@ export function LoginPage() {
 
           {/* Error/Success messages */}
           {error && (
-            <div className="mb-4 p-3 rounded-xl bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-sm">
+            <div className="mb-4 p-3 rounded-lg bg-red-100 text-red-700 text-sm">
               {error}
             </div>
           )}
           {success && (
-            <div className="mb-4 p-3 rounded-xl bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 text-sm">
+            <div className="mb-4 p-3 rounded-lg bg-green-100 text-green-700 text-sm">
               {success}
             </div>
           )}
@@ -107,7 +101,7 @@ export function LoginPage() {
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="relative">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-kingfisher-400" size={20} />
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
               <Input
                 type="email"
                 placeholder="E-mailadres"
@@ -120,7 +114,7 @@ export function LoginPage() {
 
             {mode !== 'forgot' && (
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-kingfisher-400" size={20} />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                 <Input
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Wachtwoord"
@@ -132,7 +126,7 @@ export function LoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-kingfisher-400 hover:text-kingfisher-600"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
@@ -141,7 +135,7 @@ export function LoginPage() {
 
             {mode === 'register' && (
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-kingfisher-400" size={20} />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                 <Input
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Bevestig wachtwoord"
@@ -172,15 +166,15 @@ export function LoginPage() {
               <>
                 <button
                   onClick={() => { setMode('forgot'); setError(''); setSuccess('') }}
-                  className="text-sm text-kingfisher-500 hover:text-kingfisher-700 dark:text-kingfisher-400 dark:hover:text-kingfisher-300"
+                  className="text-sm text-gray-500 hover:text-gray-700"
                 >
                   Wachtwoord vergeten?
                 </button>
-                <p className="text-kingfisher-500 dark:text-kingfisher-400">
+                <p className="text-gray-500">
                   Nog geen account?{' '}
                   <button
                     onClick={() => { setMode('register'); setError(''); setSuccess('') }}
-                    className="text-teal-500 hover:text-teal-600 font-medium"
+                    className="text-accent hover:text-accent-dark font-medium"
                   >
                     Registreren
                   </button>
@@ -188,11 +182,11 @@ export function LoginPage() {
               </>
             )}
             {mode === 'register' && (
-              <p className="text-kingfisher-500 dark:text-kingfisher-400">
+              <p className="text-gray-500">
                 Al een account?{' '}
                 <button
                   onClick={() => { setMode('login'); setError(''); setSuccess('') }}
-                  className="text-teal-500 hover:text-teal-600 font-medium"
+                  className="text-accent hover:text-accent-dark font-medium"
                 >
                   Inloggen
                 </button>
@@ -201,7 +195,7 @@ export function LoginPage() {
             {mode === 'forgot' && (
               <button
                 onClick={() => { setMode('login'); setError(''); setSuccess('') }}
-                className="text-teal-500 hover:text-teal-600 font-medium"
+                className="text-accent hover:text-accent-dark font-medium"
               >
                 Terug naar inloggen
               </button>

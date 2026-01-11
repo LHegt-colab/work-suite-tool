@@ -8,9 +8,9 @@ export const Input = forwardRef(({
   ...props
 }, ref) => {
   return (
-    <div className="w-full">
+    <div className="space-y-1">
       {label && (
-        <label className="block text-sm font-semibold text-kingfisher-600 dark:text-kingfisher-300 mb-1.5">
+        <label className="block text-sm font-medium text-gray-700">
           {label}
         </label>
       )}
@@ -18,22 +18,18 @@ export const Input = forwardRef(({
         ref={ref}
         type={type}
         className={`
-          w-full px-4 py-2.5
-          bg-white dark:bg-kingfisher-800
-          border border-kingfisher-200 dark:border-kingfisher-600
-          rounded-xl
-          text-kingfisher-800 dark:text-kingfisher-100
-          placeholder-kingfisher-400 dark:placeholder-kingfisher-500
-          transition-all duration-200
-          focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20
-          disabled:opacity-50 disabled:cursor-not-allowed
-          ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : ''}
+          w-full px-4 py-2
+          border border-gray-300 rounded-lg
+          focus:ring-2 focus:ring-accent focus:border-transparent
+          transition-colors
+          disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-100
+          ${error ? 'border-red-500' : ''}
           ${className}
         `}
         {...props}
       />
       {error && (
-        <p className="mt-1 text-sm text-red-500">{error}</p>
+        <p className="text-sm text-red-500">{error}</p>
       )}
     </div>
   )
@@ -49,9 +45,9 @@ export const TextArea = forwardRef(({
   ...props
 }, ref) => {
   return (
-    <div className="w-full">
+    <div className="space-y-1">
       {label && (
-        <label className="block text-sm font-semibold text-kingfisher-600 dark:text-kingfisher-300 mb-1.5">
+        <label className="block text-sm font-medium text-gray-700">
           {label}
         </label>
       )}
@@ -59,23 +55,18 @@ export const TextArea = forwardRef(({
         ref={ref}
         rows={rows}
         className={`
-          w-full px-4 py-2.5
-          bg-white dark:bg-kingfisher-800
-          border border-kingfisher-200 dark:border-kingfisher-600
-          rounded-xl
-          text-kingfisher-800 dark:text-kingfisher-100
-          placeholder-kingfisher-400 dark:placeholder-kingfisher-500
-          transition-all duration-200
-          resize-y min-h-[100px]
-          focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20
-          disabled:opacity-50 disabled:cursor-not-allowed
-          ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : ''}
+          w-full px-4 py-2
+          border border-gray-300 rounded-lg
+          focus:ring-2 focus:ring-accent focus:border-transparent
+          transition-colors resize-y
+          disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-100
+          ${error ? 'border-red-500' : ''}
           ${className}
         `}
         {...props}
       />
       {error && (
-        <p className="mt-1 text-sm text-red-500">{error}</p>
+        <p className="text-sm text-red-500">{error}</p>
       )}
     </div>
   )
@@ -91,24 +82,21 @@ export const Select = forwardRef(({
   ...props
 }, ref) => {
   return (
-    <div className="w-full">
+    <div className="space-y-1">
       {label && (
-        <label className="block text-sm font-semibold text-kingfisher-600 dark:text-kingfisher-300 mb-1.5">
+        <label className="block text-sm font-medium text-gray-700">
           {label}
         </label>
       )}
       <select
         ref={ref}
         className={`
-          w-full px-4 py-2.5
-          bg-white dark:bg-kingfisher-800
-          border border-kingfisher-200 dark:border-kingfisher-600
-          rounded-xl
-          text-kingfisher-800 dark:text-kingfisher-100
-          transition-all duration-200
-          focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20
-          disabled:opacity-50 disabled:cursor-not-allowed
-          ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : ''}
+          w-full px-4 py-2
+          border border-gray-300 rounded-lg
+          focus:ring-2 focus:ring-accent focus:border-transparent
+          transition-colors bg-white
+          disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-100
+          ${error ? 'border-red-500' : ''}
           ${className}
         `}
         {...props}
@@ -116,7 +104,7 @@ export const Select = forwardRef(({
         {children}
       </select>
       {error && (
-        <p className="mt-1 text-sm text-red-500">{error}</p>
+        <p className="text-sm text-red-500">{error}</p>
       )}
     </div>
   )

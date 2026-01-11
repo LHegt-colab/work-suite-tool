@@ -1,13 +1,13 @@
 import { forwardRef } from 'react'
 
 const variants = {
-  primary: 'bg-kingfisher-500 hover:bg-kingfisher-600 text-white shadow-md hover:shadow-lg',
-  secondary: 'bg-kingfisher-100 hover:bg-kingfisher-200 text-kingfisher-700 dark:bg-kingfisher-800 dark:hover:bg-kingfisher-700 dark:text-kingfisher-100',
-  success: 'bg-teal-500 hover:bg-teal-600 text-white shadow-md hover:shadow-lg',
-  danger: 'bg-red-500 hover:bg-red-600 text-white shadow-md hover:shadow-lg',
-  warning: 'bg-amber-500 hover:bg-amber-600 text-white shadow-md hover:shadow-lg',
-  ghost: 'bg-transparent hover:bg-kingfisher-100 text-kingfisher-600 dark:hover:bg-kingfisher-800 dark:text-kingfisher-300',
-  outline: 'border-2 border-kingfisher-500 text-kingfisher-500 hover:bg-kingfisher-500 hover:text-white dark:border-kingfisher-400 dark:text-kingfisher-400',
+  primary: 'bg-accent text-white hover:bg-accent-dark shadow-md',
+  secondary: 'bg-gray-200 text-gray-700 hover:bg-gray-300',
+  success: 'bg-green-600 text-white hover:bg-green-700 shadow-md',
+  danger: 'bg-red-500 text-white hover:bg-red-600 shadow-md',
+  warning: 'bg-yellow-600 text-white hover:bg-yellow-700 shadow-md',
+  ghost: 'bg-transparent text-gray-600 hover:bg-gray-100',
+  outline: 'border-2 border-primary text-primary hover:bg-primary hover:text-white',
 }
 
 const sizes = {
@@ -32,10 +32,9 @@ export const Button = forwardRef(({
       disabled={disabled}
       className={`
         inline-flex items-center justify-center gap-2
-        font-medium rounded-xl
-        transition-all duration-200 ease-out
-        transform hover:-translate-y-0.5 active:translate-y-0
-        disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
+        font-medium rounded-lg
+        transition-colors duration-200
+        disabled:opacity-50 disabled:cursor-not-allowed
         ${variants[variant]}
         ${sizes[size]}
         ${className}
