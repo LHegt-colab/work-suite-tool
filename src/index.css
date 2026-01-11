@@ -20,19 +20,21 @@
   --color-kingfisher-500: #1a5f5f;
   --color-kingfisher-600: #1a5f5f;
   --color-kingfisher-700: #0a4f4f;
-  --color-kingfisher-800: #374151;
-  --color-kingfisher-900: #1f2937;
-  --color-kingfisher-950: #111827;
+  --color-kingfisher-800: #1f2937;
+  --color-kingfisher-900: #111827;
+  --color-kingfisher-950: #030712;
 
-  /* Teal alias kleuren (voor bestaande code) */
+  /* Teal alias kleuren */
   --color-teal-400: #6dd9e8;
   --color-teal-500: #4dd0e1;
   --color-teal-600: #2dc7d8;
+  --color-teal-900: #134e4a;
 
   /* Amber alias kleuren */
   --color-amber-100: #fef3c7;
   --color-amber-500: #f59e0b;
   --color-amber-700: #b45309;
+  --color-amber-900: #78350f;
 
   /* Font family */
   --font-sans: system-ui, -apple-system, sans-serif;
@@ -46,8 +48,21 @@
 
 body {
   font-family: var(--font-sans);
-  background-color: #f5f5f5;
-  color: #1a1a1a;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Light mode defaults */
+body {
+  background-color: #f3f4f6;
+  color: #1f2937;
+}
+
+/* Dark mode */
+.dark body,
+.dark {
+  background-color: #111827;
+  color: #f9fafb;
 }
 
 /* Custom scrollbar */
@@ -69,13 +84,21 @@ body {
   background: rgba(26, 95, 95, 0.5);
 }
 
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
 /* Focus styles */
 *:focus-visible {
   outline: 2px solid #4dd0e1;
   outline-offset: 2px;
 }
 
-/* Hide dark mode styling - single theme app */
-.dark {
-  /* Override dark mode to show same as light */
+/* Smooth transitions for theme changes */
+.transition-theme {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }

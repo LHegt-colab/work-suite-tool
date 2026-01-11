@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../context/AuthContext'
+import { useTheme } from '../context/ThemeContext'
 import { Layout } from '../components/ui/Layout'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
 import { Badge } from '../components/ui/Badge'
@@ -13,13 +14,14 @@ import {
   TrendingUp,
   BookOpen,
   Users,
-  Lightbulb
+  Activity
 } from 'lucide-react'
 import { format, isToday, isPast, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from 'date-fns'
 import { nl } from 'date-fns/locale'
 
 export function DashboardPage() {
   const { user } = useAuth()
+  const { theme } = useTheme()
   const [stats, setStats] = useState({
     openTodos: 0,
     overdueTodos: 0,
@@ -48,7 +50,6 @@ export function DashboardPage() {
     const monthStart = format(startOfMonth(new Date()), 'yyyy-MM-dd')
     const monthEnd = format(endOfMonth(new Date()), 'yyyy-MM-dd')
 
-    // Fetch all todos
     const { data: todos } = await supabase
       .from('todos')
       .select('*')
@@ -62,14 +63,10 @@ export function DashboardPage() {
       const todayDue = openTodos.filter(t => t.due_date === today)
       const todayStart = openTodos.filter(t => t.start_date === today)
       const completedWeek = todos.filter(t =>
-        t.status === 'afgerond' &&
-        t.updated_at >= weekStart &&
-        t.updated_at <= weekEnd
+        t.status === 'afgerond' && t.updated_at >= weekStart && t.updated_at <= weekEnd
       )
       const completedMonth = todos.filter(t =>
-        t.status === 'afgerond' &&
-        t.updated_at >= monthStart &&
-        t.updated_at <= monthEnd
+        t.status === 'afgerond' && t.updated_at >= monthStart && t.updated_at <= monthEnd
       )
 
       setStats({
@@ -81,14 +78,12 @@ export function DashboardPage() {
         completedMonth: completedMonth.length,
       })
 
-      // Today & overdue todos for widget
       const urgentTodos = [...overdueTodos, ...todayDue, ...todayStart]
         .filter((t, i, arr) => arr.findIndex(x => x.id === t.id) === i)
         .slice(0, 5)
       setTodayTodos(urgentTodos)
     }
 
-    // Fetch upcoming meetings
     const { data: meetings } = await supabase
       .from('meetings')
       .select('*')
@@ -101,7 +96,6 @@ export function DashboardPage() {
 
     setUpcomingMeetings(meetings || [])
 
-    // Fetch latest journal
     const { data: journals } = await supabase
       .from('journals')
       .select('*')
@@ -113,7 +107,6 @@ export function DashboardPage() {
 
     setLatestJournal(journals?.[0] || null)
 
-    // Fetch activity log
     const { data: activities } = await supabase
       .from('activity_log')
       .select('*')
@@ -122,7 +115,6 @@ export function DashboardPage() {
       .limit(10)
 
     setActivityLog(activities || [])
-
     setLoading(false)
   }
 
@@ -157,8 +149,8 @@ export function DashboardPage() {
   if (loading) {
     return (
       <Layout>
-        <div className="text-center py-12">
-          <p className="text-gray-500">Laden...</p>
+        <div className="flex items-center justify-center h-64">
+          <p className="text-gray-500 dark:text-gray-400">Laden...</p>
         </div>
       </Layout>
     )
@@ -167,80 +159,49 @@ export function DashboardPage() {
   return (
     <Layout>
       <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-bold text-primary">Dashboard</h2>
-        </div>
+        {/* Header */}
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
 
-        {/* Statistics */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          <StatCard
-            label="Openstaand"
-            value={stats.openTodos}
-            icon={CheckSquare}
-            color="text-primary"
-          />
-          <StatCard
-            label="Verlopen"
-            value={stats.overdueTodos}
-            icon={AlertTriangle}
-            color="text-red-600"
-          />
-          <StatCard
-            label="Vandaag (Due)"
-            value={stats.todayDue}
-            icon={Clock}
-            color="text-yellow-600"
-          />
-          <StatCard
-            label="Vandaag (Start)"
-            value={stats.todayStart}
-            icon={Calendar}
-            color="text-accent"
-          />
-          <StatCard
-            label="Deze Week"
-            value={stats.completedWeek}
-            icon={TrendingUp}
-            color="text-green-600"
-          />
-          <StatCard
-            label="Deze Maand"
-            value={stats.completedMonth}
-            icon={TrendingUp}
-            color="text-blue-600"
-          />
+        {/* Statistics Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          <StatCard label="Openstaand" value={stats.openTodos} icon={CheckSquare} color="text-primary" bgColor="bg-primary/10" />
+          <StatCard label="Verlopen" value={stats.overdueTodos} icon={AlertTriangle} color="text-red-600" bgColor="bg-red-100 dark:bg-red-900/30" />
+          <StatCard label="Due vandaag" value={stats.todayDue} icon={Clock} color="text-amber-600" bgColor="bg-amber-100 dark:bg-amber-900/30" />
+          <StatCard label="Start vandaag" value={stats.todayStart} icon={Calendar} color="text-accent" bgColor="bg-accent/10" />
+          <StatCard label="Deze week" value={stats.completedWeek} icon={TrendingUp} color="text-green-600" bgColor="bg-green-100 dark:bg-green-900/30" />
+          <StatCard label="Deze maand" value={stats.completedMonth} icon={TrendingUp} color="text-blue-600" bgColor="bg-blue-100 dark:bg-blue-900/30" />
         </div>
 
         {/* Widgets Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid lg:grid-cols-3 gap-6">
           {/* Today & Overdue Todos */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <CheckSquare size={20} className="text-accent" />
-                Vandaag & Verlopen ToDo's
+              <CardTitle className="flex items-center gap-2 text-base">
+                <CheckSquare size={18} className="text-accent" />
+                Urgente ToDo's
               </CardTitle>
             </CardHeader>
             <CardContent>
               {todayTodos.length === 0 ? (
-                <p className="text-gray-500 text-sm">Geen urgente ToDo's</p>
+                <p className="text-gray-500 dark:text-gray-400 text-sm py-2">Geen urgente ToDo's</p>
               ) : (
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {todayTodos.map(todo => (
                     <Link
                       key={todo.id}
                       to="/todos"
-                      className="block p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors"
+                      className="block p-3 rounded-lg bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                     >
                       <div className="flex items-start justify-between gap-2">
-                        <span className="font-medium text-gray-800 text-sm">
+                        <span className="font-medium text-gray-900 dark:text-white text-sm line-clamp-1">
                           {todo.title}
                         </span>
                         <Badge variant={todo.priority}>{todo.priority}</Badge>
                       </div>
                       {todo.due_date && (
-                        <p className="text-xs text-gray-500 mt-1">
-                          Due: {format(new Date(todo.due_date), 'dd MMM yyyy', { locale: nl })}
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                          Due: {format(new Date(todo.due_date), 'dd MMM', { locale: nl })}
                         </p>
                       )}
                     </Link>
@@ -253,27 +214,27 @@ export function DashboardPage() {
           {/* Upcoming Meetings */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Users size={20} className="text-accent" />
+              <CardTitle className="flex items-center gap-2 text-base">
+                <Users size={18} className="text-accent" />
                 Aankomende Meetings
               </CardTitle>
             </CardHeader>
             <CardContent>
               {upcomingMeetings.length === 0 ? (
-                <p className="text-gray-500 text-sm">Geen geplande meetings</p>
+                <p className="text-gray-500 dark:text-gray-400 text-sm py-2">Geen geplande meetings</p>
               ) : (
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {upcomingMeetings.map(meeting => (
                     <Link
                       key={meeting.id}
                       to="/meetings"
-                      className="block p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors"
+                      className="block p-3 rounded-lg bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                     >
-                      <span className="font-medium text-gray-800 text-sm">
+                      <span className="font-medium text-gray-900 dark:text-white text-sm line-clamp-1">
                         {meeting.subject}
                       </span>
-                      <p className="text-xs text-gray-500 mt-1">
-                        {format(new Date(meeting.date), 'dd MMM yyyy', { locale: nl })} om {meeting.time}
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        {format(new Date(meeting.date), 'dd MMM', { locale: nl })} om {meeting.time}
                       </p>
                     </Link>
                   ))}
@@ -285,28 +246,28 @@ export function DashboardPage() {
           {/* Latest Journal */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <BookOpen size={20} className="text-accent" />
-                Laatste Journal Entry
+              <CardTitle className="flex items-center gap-2 text-base">
+                <BookOpen size={18} className="text-accent" />
+                Laatste Journal
               </CardTitle>
             </CardHeader>
             <CardContent>
               {!latestJournal ? (
-                <p className="text-gray-500 text-sm">Geen journal entries</p>
+                <p className="text-gray-500 dark:text-gray-400 text-sm py-2">Geen journal entries</p>
               ) : (
                 <Link
                   to="/journal"
-                  className="block p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors"
+                  className="block p-3 rounded-lg bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                 >
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="font-medium text-gray-800 text-sm">
-                      {format(new Date(latestJournal.date), 'dd MMM yyyy', { locale: nl })} {latestJournal.time}
+                    <span className="font-medium text-gray-900 dark:text-white text-sm">
+                      {format(new Date(latestJournal.date), 'dd MMM', { locale: nl })} {latestJournal.time}
                     </span>
                     {latestJournal.category && (
                       <Badge variant="default">{latestJournal.category}</Badge>
                     )}
                   </div>
-                  <p className="text-sm text-gray-600 line-clamp-3">
+                  <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
                     {latestJournal.description}
                   </p>
                 </Link>
@@ -318,32 +279,33 @@ export function DashboardPage() {
         {/* Activity Log */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Lightbulb size={20} className="text-primary" />
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Activity size={18} className="text-primary" />
               Recente Activiteit
             </CardTitle>
           </CardHeader>
           <CardContent>
             {activityLog.length === 0 ? (
-              <p className="text-gray-500 text-sm">Nog geen activiteit geregistreerd</p>
+              <p className="text-gray-500 dark:text-gray-400 text-sm py-2">Nog geen activiteit</p>
             ) : (
-              <div className="space-y-3 max-h-80 overflow-y-auto">
+              <div className="space-y-2 max-h-64 overflow-y-auto">
                 {activityLog.map(activity => (
                   <div
                     key={activity.id}
                     className={`
-                      p-3 rounded-lg border-l-4 bg-gray-50
+                      p-3 rounded-lg border-l-4 bg-gray-50 dark:bg-gray-700/50
                       ${activity.action === 'create' ? 'border-l-green-500' : ''}
                       ${activity.action === 'update' ? 'border-l-blue-500' : ''}
                       ${activity.action === 'delete' ? 'border-l-red-500' : ''}
-                      ${activity.action === 'archive' ? 'border-l-gray-500' : ''}
+                      ${activity.action === 'archive' ? 'border-l-gray-400' : ''}
                     `}
                   >
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
                       {getTimeAgo(activity.created_at)}
                     </p>
-                    <p className="text-sm font-medium text-gray-800">
-                      {actionLabels[activity.action]}: {entityLabels[activity.entity_type]} - {activity.entity_title}
+                    <p className="text-sm text-gray-900 dark:text-white">
+                      <span className="font-medium">{actionLabels[activity.action]}:</span>{' '}
+                      {entityLabels[activity.entity_type]} - {activity.entity_title}
                     </p>
                   </div>
                 ))}
@@ -356,12 +318,16 @@ export function DashboardPage() {
   )
 }
 
-function StatCard({ label, value, icon: Icon, color }) {
+function StatCard({ label, value, icon: Icon, color, bgColor }) {
   return (
-    <div className="bg-white rounded-lg shadow p-4">
-      <Icon className={`mb-2 ${color}`} size={24} />
-      <div className={`text-2xl font-bold ${color}`}>{value}</div>
-      <div className="text-sm text-gray-600">{label}</div>
+    <div className={`p-4 rounded-lg ${bgColor}`}>
+      <div className="flex items-center gap-3">
+        <Icon className={color} size={20} />
+        <div>
+          <div className={`text-2xl font-bold ${color}`}>{value}</div>
+          <div className="text-xs text-gray-600 dark:text-gray-400">{label}</div>
+        </div>
+      </div>
     </div>
   )
 }

@@ -1,19 +1,19 @@
 import { forwardRef } from 'react'
 
 const variants = {
-  primary: 'bg-accent text-white hover:bg-accent-dark shadow-md',
-  secondary: 'bg-gray-200 text-gray-700 hover:bg-gray-300',
-  success: 'bg-green-600 text-white hover:bg-green-700 shadow-md',
-  danger: 'bg-red-500 text-white hover:bg-red-600 shadow-md',
-  warning: 'bg-yellow-600 text-white hover:bg-yellow-700 shadow-md',
-  ghost: 'bg-transparent text-gray-600 hover:bg-gray-100',
-  outline: 'border-2 border-primary text-primary hover:bg-primary hover:text-white',
+  primary: 'bg-accent hover:bg-accent-dark text-white shadow-sm',
+  secondary: 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600',
+  success: 'bg-green-600 hover:bg-green-700 text-white shadow-sm',
+  danger: 'bg-red-500 hover:bg-red-600 text-white shadow-sm',
+  warning: 'bg-amber-500 hover:bg-amber-600 text-white shadow-sm',
+  ghost: 'bg-transparent text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700',
+  outline: 'border-2 border-accent text-accent hover:bg-accent hover:text-white',
 }
 
 const sizes = {
   sm: 'px-3 py-1.5 text-sm',
-  md: 'px-4 py-2 text-base',
-  lg: 'px-6 py-3 text-lg',
+  md: 'px-4 py-2 text-sm',
+  lg: 'px-5 py-2.5 text-base',
 }
 
 export const Button = forwardRef(({
